@@ -18,7 +18,6 @@
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
  * Version:           1.0.0
  * Author:            Leonardo Pinori
- * Author URI:        https://github.com/leodudedev/Simple-Limited-Access
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       simple-limited-access
