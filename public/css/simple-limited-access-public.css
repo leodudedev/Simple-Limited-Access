@@ -1,0 +1,29 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+
+#sla_login_tgt {
+    width: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#sla_custom_login_form label {
+    display: block;
+}
+
+#sla_custom_login_form input {
+    width: 100%;
+}
+
+.sla-login-error {
+    font-size: 12px;
+    color: tomato;
+    text-align: center;
+}
+.sla-login-lost {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+}

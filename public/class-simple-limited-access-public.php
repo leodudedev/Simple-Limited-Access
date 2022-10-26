@@ -1,0 +1,205 @@
+<?php
+
+/**
+ * The public-facing functionality of the plugin.
+ *
+ * @link       https://github.com/leodudedev/Simple-Limited-Access
+ * @since      1.0.0
+ *
+ * @package    Simple_Limited_Access
+ * @subpackage Simple_Limited_Access/public
+ */
+
+/**
+ * The public-facing functionality of the plugin.
+ *
+ * Defines the plugin name, version, and two examples hooks for how to
+ * enqueue the public-facing stylesheet and JavaScript.
+ *
+ * @package    Simple_Limited_Access
+ * @subpackage Simple_Limited_Access/public
+ * @author     Leonardo Pinori <pinori@gmail.com>
+ */
+class Simple_Limited_Access_Public
+{
+
+  /**
+   * The ID of this plugin.
+   *
+   * @since    1.0.0
+   * @access   private
+   * @var      string $plugin_name The ID of this plugin.
+   */
+  private $plugin_name;
+
+  /**
+   * The version of this plugin.
+   *
+   * @since    1.0.0
+   * @access   private
+   * @var      string $version The current version of this plugin.
+   */
+  private $version;
+
+  /**
+   * @since    1.0.0
+   * @access   protected
+   * @var      Simple_Limited_Access_utils $utils
+   */
+  protected $utils;
+
+  /**
+   * Initialize the class and set its properties.
+   *
+   * @param string $plugin_name The name of the plugin.
+   * @param string $version The version of this plugin.
+   * @since    1.0.0
+   */
+  public function __construct($plugin_name, $version)
+  {
+    $this->plugin_name = $plugin_name;
+    $this->version = $version;
+
+    require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-simple-limited-access-utils.php';
+    $this->utils = new Simple_Limited_Access_utils();
+
+    $this->hook_template_redirect();
+  }
+
+
+  /**
+   * Register the stylesheets for the public-facing side of the site.
+   *
+   * @since    1.0.0
+   */
+  public function enqueue_styles()
+  {
+
+    /**
+     * This function is provided for demonstration purposes only.
+     *
+     * An instance of this class should be passed to the run() function
+     * defined in Simple_Limited_Access_Loader as all of the hooks are defined
+     * in that particular class.
+     *
+     * The Simple_Limited_Access_Loader will then create the relationship
+     * between the defined hooks and the functions defined in this
+     * class.
+     */
+
+    wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/simple-limited-access-public.css', array(), $this->version, 'all');
+    if (get_the_ID() === intval(get_option('simple_limited_access_login_page'))) {
+      wp_enqueue_style('bootstrap-css-sla', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
+    }
+  }
+
+  /**
+   * Register the JavaScript for the public-facing side of the site.
+   *
+   * @since    1.0.0
+   */
+  public function enqueue_scripts()
+  {
+
+    /**
+     * This function is provided for demonstration purposes only.
+     *
+     * An instance of this class should be passed to the run() function
+     * defined in Simple_Limited_Access_Loader as all of the hooks are defined
+     * in that particular class.
+     *
+     * The Simple_Limited_Access_Loader will then create the relationship
+     * between the defined hooks and the functions defined in this
+     * class.
+     */
+
+    wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/simple-limited-access-public.js', array('jquery'), $this->version, false);
+
+    if (get_the_ID() === intval(get_option('simple_limited_access_login_page'))) {
+      wp_enqueue_script('bootstrap-js-sla', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js', array('jquery'));
+    }
+  }
+
+  private function addQueryParam($url, $value)
+  {
+    $query = parse_url($url, PHP_URL_QUERY);
+    if (str_contains($query, $value) === false) {
+      if ($query) {
+        $url .= '&' . $value;
+      } else {
+        $url .= '?' . $value;
+      }
+    }
+    return $url;
+  }
+
+  private function hook_template_redirect()
+  {
+
+
+    add_action('template_include', function ($template) {
+      if (!is_user_logged_in()) {
+
+        $pages = get_option('simple_limited_access_pages') ? get_option('simple_limited_access_pages') : [];
+        $post_type = get_option('simple_limited_access_post_type') ? get_option('simple_limited_access_post_type') : [];
+
+        $force = false;
+        if (!$pages and !$post_type) {
+          // forzo tutto
+          // $force = true;
+        } else {
+          if ($pages) {
+            if (in_array(get_the_ID(), $pages)) {
+              $force = true;
+            }
+          }
+          if ($post_type) {
+            if (in_array(get_post_type(), $post_type)) {
+              $force = true;
+            }
+          }
+        }
+
+        if ($force) {
+
+          $cookie_name = "simple_limited_access";
+          $renderForm = true;
+          $renderFormError = false;
+          if (isset($_POST['sla_token']) and isset($_POST['sla_user']) and isset($_POST['sla_pwd'])) {
+            $renderFormError = true;
+            if ($this->utils->checkUsrPwd($_POST['sla_user'], $_POST['sla_pwd'])) {
+              $cookietimeout = 2;
+              if (intval(get_option('simple_limited_access_cookie')) > 0) {
+                $cookietimeout = intval(get_option('simple_limited_access_cookie'));
+              }
+              setcookie($cookie_name, date('Ymd'), time() + ((60 * 60) * $cookietimeout), "/");
+
+              $log_file = $this->utils->getCurrentLogFile();
+              if ($log_file) {
+                $date_utc = new \DateTime("now", new \DateTimeZone("Europe/Rome"));
+                $logText = 'user: ' . $_POST['sla_user'] . ' - ip: ' . $_SERVER['REMOTE_ADDR'] . ' - date: ' . $date_utc->format('Y-m-d H:i:s');
+                file_put_contents($log_file, "\r\n" . $logText, FILE_APPEND);
+              }
+
+              $renderFormError = false;
+              $renderForm = false;
+            }
+          } else {
+            if (!isset($_COOKIE[$cookie_name])) {
+              $renderForm = true;
+            } else {
+              if ($_COOKIE[$cookie_name] == date('Ymd')) {
+                $renderForm = false;
+              }
+            }
+          }
+          if ($renderForm) {
+            require(WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)) . '/partials/form.php');
+            die();
+          }
+        }
+      }
+      return $template;
+    });
+  }
+}
