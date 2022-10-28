@@ -88,9 +88,6 @@ class Simple_Limited_Access_Public
      */
 
     wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/simple-limited-access-public.css', array(), $this->version, 'all');
-    if (get_the_ID() === intval(get_option('simple_limited_access_login_page'))) {
-      wp_enqueue_style('bootstrap-css-sla', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css');
-    }
   }
 
   /**
@@ -113,11 +110,8 @@ class Simple_Limited_Access_Public
      * class.
      */
 
-    wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/simple-limited-access-public.js', array('jquery'), $this->version, false);
 
-    if (get_the_ID() === intval(get_option('simple_limited_access_login_page'))) {
-      wp_enqueue_script('bootstrap-js-sla', 'https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js', array('jquery'));
-    }
+    // wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/simple-limited-access-public.js', array('jquery'), $this->version, false);
   }
 
   private function addQueryParam($url, $value)

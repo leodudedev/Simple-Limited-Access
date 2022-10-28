@@ -1,35 +1,43 @@
 <?php
 if ($_POST) {
   if (isset($_POST['sla_bg'])) {
-    update_option('simple_limited_access_bg', $_POST['sla_bg']);
+    update_option('simple_limited_access_bg', sanitize_hex_color($_POST['sla_bg']));
   }
 
   if (isset($_POST['sla_text'])) {
-    $s = $_POST['sla_text'];
-    if ($s) {
-      $s = add_magic_quotes($s);
-    }
+    $s =  wp_kses_post($_POST['sla_text']);
     update_option('simple_limited_access_text', $s);
   }
 
-  if (isset($_POST['sla_pages'])) {
-    update_option('simple_limited_access_pages', $_POST['sla_pages']);
+  if (is_array($_POST['sla_pages'])) {
+    $vec_page = [];
+    foreach ($_POST['sla_pages'] as $key => $id) {
+      // Sanitizing page ID as INTVAL
+      $vec_page[] = intval($id);
+    }
+    update_option('simple_limited_access_pages', $vec_page);
   } else {
     update_option('simple_limited_access_pages', null);
   }
 
   if (isset($_POST['sla_post_type'])) {
-    update_option('simple_limited_access_post_type', $_POST['sla_post_type']);
+    $vec_type = [];
+    foreach ($_POST['sla_post_type'] as $key => $type) {
+      // Sanitizing post_type as TEXT
+      $vec_type[] = sanitize_text_field($type);
+    }
+    update_option('simple_limited_access_post_type', $vec_type);
   } else {
     update_option('simple_limited_access_post_type', null);
   }
 
   if (isset($_POST['sla_usrlist'])) {
-    update_option('simple_limited_access_list', $_POST['sla_usrlist']);
+    update_option('simple_limited_access_list', sanitize_textarea_field($_POST['sla_usrlist']));
   }
 
   if (isset($_POST['sla_cookie_timeout'])) {
-    update_option('simple_limited_access_cookie', $_POST['sla_cookie_timeout']);
+    // Sanitizing cookie timeout as INTVAL
+    update_option('simple_limited_access_cookie', intval($_POST['sla_cookie_timeout']));
   }
 }
 
@@ -42,10 +50,11 @@ $bg = 'darkseagreen';
 if (get_option('simple_limited_access_bg')) {
   $bg = get_option('simple_limited_access_bg');
 }
+var_dump($bg);
 
 $text = '';
 if (get_option('simple_limited_access_text')) {
-  $text = stripslashes(get_option('simple_limited_access_text'));
+  $text = esc_html(get_option('simple_limited_access_text'));
 }
 
 $pages = '';
@@ -60,7 +69,7 @@ if (get_option('simple_limited_access_post_type')) {
 
 $userlist = '';
 if (get_option('simple_limited_access_list')) {
-  $userlist = get_option('simple_limited_access_list');
+  $userlist = esc_html(get_option('simple_limited_access_list'));
 }
 
 $time = '';
@@ -79,8 +88,8 @@ if (get_option('simple_limited_access_cookie')) {
       es. <strong>#ff00ff</strong>
     </p>
     <div style="display: flex">
-      <input type="text" name="sla_bg" value="<?php echo $bg; ?>" id="sla_bg">
-      <span style="width: 27px; height: 27px; display: inline-block; margin-left: 10px; border-radius: 4px; background-color: <?php echo $bg; ?>; border: 2px solid black;"></span>
+      <input type="text" name="sla_bg" value="<?php echo esc_html($bg); ?>" id="sla_bg">
+      <span style="width: 27px; height: 27px; display: inline-block; margin-left: 10px; border-radius: 4px; background-color: <?php echo esc_html($bg); ?>; border: 2px solid black;"></span>
     </div>
   </div>
   <hr style="margin: 20px 0;">
@@ -88,7 +97,7 @@ if (get_option('simple_limited_access_cookie')) {
     <p style="margin: 0 0 5px 0">
       <?php echo __('Info text on the login page', 'simple_limited_access'); ?>
     </p>
-    <textarea rows="3" class="large-text code" name="sla_text" id="sla_text"><?php echo $text; ?></textarea>
+    <textarea rows="3" class="large-text code" name="sla_text" id="sla_text"><?php echo esc_html($text); ?></textarea>
   </div>
   <hr style="margin: 20px 0;">
   <div>
@@ -144,7 +153,7 @@ if (get_option('simple_limited_access_cookie')) {
       <?php echo __('Insert new line in the textarea to add a user', 'simple_limited_access'); ?>.<br>
       <?php echo __('Username and password must be separated by colons', 'simple_limited_access'); ?><br>es. <strong>username:123456</strong>
     </p>
-    <textarea rows="10" class="large-text code" name="sla_usrlist"><?php echo $userlist; ?></textarea>
+    <textarea rows="10" class="large-text code" name="sla_usrlist"><?php echo esc_html($userlist); ?></textarea>
   </div>
   <hr style="margin: 20px 0;">
   <div>
@@ -152,7 +161,7 @@ if (get_option('simple_limited_access_cookie')) {
       <?php echo __('Cookie timeout in hours', 'simple_limited_access'); ?><br>
       <?php echo __('Default value 2 hours', 'simple_limited_access'); ?>
     </p>
-    <input type="number" name="sla_cookie_timeout" value="<?php echo $time; ?>">
+    <input type="number" name="sla_cookie_timeout" value="<?php echo esc_html($time); ?>">
   </div>
   <hr style="margin: 20px 0;">
   <div>

@@ -109,8 +109,8 @@ class Simple_Limited_Access_Admin
 
     if (!empty(get_current_screen()->base)) {
       if (get_current_screen()->base == 'toplevel_page_simple-limited-access') {
-        wp_register_style('select2css', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.css', false, '1.0', 'all');
-        wp_register_script('select2', '//cdnjs.cloudflare.com/ajax/libs/select2/3.4.8/select2.js', array('jquery'), '1.0', true);
+        wp_register_style('select2css', plugin_dir_url(__FILE__) . 'css/select2.min.css', false, '4.0.13', 'all');
+        wp_register_script('select2', plugin_dir_url(__FILE__) . 'js/select2.min.js', array('jquery'), '4.0.13', true);
         wp_enqueue_style('select2css');
         wp_enqueue_script('select2');
 
