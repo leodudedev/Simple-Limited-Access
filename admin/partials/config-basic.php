@@ -50,7 +50,7 @@ $bg = 'darkseagreen';
 if (get_option('simple_limited_access_bg')) {
   $bg = get_option('simple_limited_access_bg');
 }
-var_dump($bg);
+
 
 $text = '';
 if (get_option('simple_limited_access_text')) {
