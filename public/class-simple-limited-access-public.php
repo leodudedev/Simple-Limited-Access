@@ -171,7 +171,7 @@ class Simple_Limited_Access_Public
               $log_file = $this->utils->getCurrentLogFile();
               if ($log_file) {
                 $date_utc = new \DateTime("now", new \DateTimeZone("Europe/Rome"));
-                $logText = 'user: ' . $_POST['sla_user'] . ' - ip: ' . $_SERVER['REMOTE_ADDR'] . ' - date: ' . $date_utc->format('Y-m-d H:i:s');
+                $logText = sanitize_text_field('user: ' . $_POST['sla_user'] . ' - ip: ' . $_SERVER['REMOTE_ADDR'] . ' - date: ' . $date_utc->format('Y-m-d H:i:s'));
                 file_put_contents($log_file, "\r\n" . $logText, FILE_APPEND);
               }
 

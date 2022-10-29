@@ -112,7 +112,7 @@ if (get_option('simple_limited_access_cookie')) {
       }
     }
     ?>
-    <select class="sla-select2" name="sla_pages[]" multiple="multiple" style="width: 100%" data-initval="<?php echo $page_val; ?>">
+    <select class="sla-select2" name="sla_pages[]" multiple="multiple" style="width: 100%" data-initval="<?php echo esc_html($page_val); ?>">
       <?php
       $pages_query = new WP_Query(array(
         'post_type' => array('page'),
@@ -141,7 +141,7 @@ if (get_option('simple_limited_access_cookie')) {
       <?php
       foreach (get_post_types(array('public' => true)) as $key => $value) {
         if ($key !== 'attachment') {
-          echo '<option value="' . $key . '">' . $value . '</option>';
+          echo '<option value="' . esc_html($key) . '">' . esc_html($value) . '</option>';
         }
       }
       ?>
@@ -176,7 +176,7 @@ if (file_exists($log_file)) {
   <hr style="margin: 50px 0 20px 0;">
   <div>
     <h2 style="margin: 0 0 5px 0"><?php echo __('Log accesses', 'simple_limited_access'); ?></h2>
-    <textarea rows="10" class="large-text code" name="sla_log" style="font-size: 12px"><?php echo $log; ?></textarea>
+    <textarea rows="10" class="large-text code" name="sla_log" style="font-size: 12px"><?php echo esc_html($log); ?></textarea>
   </div>
 <?php
 }
