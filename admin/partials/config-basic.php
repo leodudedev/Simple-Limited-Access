@@ -84,7 +84,7 @@ if (get_option('simple_limited_access_cookie')) {
 <form action="" method="post">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Login page background', 'simple_limited_access'); ?><br>
+      <?php echo __('Login page background', 'simple-limited-access'); ?><br>
       es. <strong>#ff00ff</strong>
     </p>
     <div style="display: flex">
@@ -95,14 +95,14 @@ if (get_option('simple_limited_access_cookie')) {
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Info text on the login page', 'simple_limited_access'); ?>
+      <?php echo __('Info text on the login page', 'simple-limited-access'); ?>
     </p>
     <textarea rows="3" class="large-text code" name="sla_text" id="sla_text"><?php echo esc_html($text); ?></textarea>
   </div>
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Enable on page', 'simple_limited_access'); ?>
+      <?php echo __('Enable on page', 'simple-limited-access'); ?>
     </p>
     <?php
     $page_val = '';
@@ -127,7 +127,7 @@ if (get_option('simple_limited_access_cookie')) {
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Enable on post_type', 'simple_limited_access'); ?>
+      <?php echo __('Enable on post_type', 'simple-limited-access'); ?>
     </p>
     <?php
     $post_type_val = '';
@@ -137,7 +137,7 @@ if (get_option('simple_limited_access_cookie')) {
       }
     }
     ?>
-    <select class="sla-select2" name="sla_post_type[]" multiple="multiple" style="width: 100%" data-initval="<?php echo $post_type_val; ?>">
+    <select class="sla-select2" name="sla_post_type[]" multiple="multiple" style="width: 100%" data-initval="<?php echo esc_html($post_type_val); ?>">
       <?php
       foreach (get_post_types(array('public' => true)) as $key => $value) {
         if ($key !== 'attachment') {
@@ -150,22 +150,22 @@ if (get_option('simple_limited_access_cookie')) {
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Insert new line in the textarea to add a user', 'simple_limited_access'); ?>.<br>
-      <?php echo __('Username and password must be separated by colons', 'simple_limited_access'); ?><br>es. <strong>username:123456</strong>
+      <?php echo __('Insert new line in the textarea to add a user', 'simple-limited-access'); ?>.<br>
+      <?php echo __('Username and password must be separated by colons', 'simple-limited-access'); ?><br>es. <strong>username:123456</strong>
     </p>
     <textarea rows="10" class="large-text code" name="sla_usrlist"><?php echo esc_html($userlist); ?></textarea>
   </div>
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Cookie timeout in hours', 'simple_limited_access'); ?><br>
-      <?php echo __('Default value 2 hours', 'simple_limited_access'); ?>
+      <?php echo __('Cookie timeout in hours', 'simple-limited-access'); ?><br>
+      <?php echo __('Default value 2 hours', 'simple-limited-access'); ?>
     </p>
     <input type="number" name="sla_cookie_timeout" value="<?php echo esc_html($time); ?>">
   </div>
   <hr style="margin: 20px 0;">
   <div>
-    <input type="submit" class="button button-primary" value="<?php echo __('Save settings', 'simple_limited_access'); ?>">
+    <input type="submit" class="button button-primary" value="<?php echo __('Save settings', 'simple-limited-access'); ?>">
   </div>
 </form>
 <?php
@@ -175,7 +175,7 @@ if (file_exists($log_file)) {
 ?>
   <hr style="margin: 50px 0 20px 0;">
   <div>
-    <h2 style="margin: 0 0 5px 0"><?php echo __('Log accesses', 'simple_limited_access'); ?></h2>
+    <h2 style="margin: 0 0 5px 0"><?php echo __('Log accesses', 'simple-limited-access'); ?></h2>
     <textarea rows="10" class="large-text code" name="sla_log" style="font-size: 12px"><?php echo esc_html($log); ?></textarea>
   </div>
 <?php

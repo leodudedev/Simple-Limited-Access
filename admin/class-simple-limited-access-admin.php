@@ -131,7 +131,7 @@ class Simple_Limited_Access_Admin
         function () {
 ?>
         <div style="padding: 20px;">
-          <h1><?php echo __('Simple Limited Access settings', 'simple_limited_access'); ?></h1>
+          <h1><?php echo __('Simple Limited Access settings', 'simple-limited-access'); ?></h1>
           <?php
           require(WP_PLUGIN_DIR . '/' . dirname(plugin_basename(__FILE__)) . '/partials/config-basic.php');
           ?>
