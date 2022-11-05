@@ -102,7 +102,7 @@ if (get_option('simple_limited_access_cookie')) {
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Enable on page', 'simple-limited-access'); ?>
+      <?php echo __('Restricts access to a specific page or pages', 'simple-limited-access'); ?>
     </p>
     <?php
     $page_val = '';
@@ -127,7 +127,7 @@ if (get_option('simple_limited_access_cookie')) {
   <hr style="margin: 20px 0;">
   <div>
     <p style="margin: 0 0 5px 0">
-      <?php echo __('Enable on post_type', 'simple-limited-access'); ?>
+      <?php echo __('Limit access to one or more types of posts', 'simple-limited-access'); ?>
     </p>
     <?php
     $post_type_val = '';

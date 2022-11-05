@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://github.com/leodudedev/Simple-Limited-Access
- * @since             1.0.0
+ * @since             1.0.1
  * @package           Simple_Limited_Access
  *
  * @wordpress-plugin
  * Plugin Name:       Simple Limited Access
  * Plugin URI:        https://github.com/leodudedev/Simple-Limited-Access
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Description:       With "Simple Limited Access" you can limit access to specific pages or post_type by forcing the user to enter a username and password that you can define in the configuration screen.
+ * Version:           1.0.1
  * Author:            Leonardo Pinori
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -31,10 +31,10 @@ if (!defined('WPINC')) {
 
 /**
  * Currently plugin version.
- * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Start at version 1.0.1 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('SIMPLE_LIMITED_ACCESS_VERSION', '1.0.0');
+define('SIMPLE_LIMITED_ACCESS_VERSION', '1.0.1');
 
 /**
  * The code that runs during plugin activation.
@@ -72,7 +72,7 @@ require plugin_dir_path(__FILE__) . 'includes/class-simple-limited-access.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since    1.0.1
  */
 function run_simple_limited_access()
 {

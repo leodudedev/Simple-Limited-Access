@@ -4,7 +4,7 @@
  * Fired during plugin deactivation
  *
  * @link       https://github.com/leodudedev/Simple-Limited-Access
- * @since      1.0.0
+ * @since      1.0.1
  *
  * @package    Simple_Limited_Access
  * @subpackage Simple_Limited_Access/includes
@@ -15,7 +15,7 @@
  *
  * This class defines all code necessary to run during the plugin's deactivation.
  *
- * @since      1.0.0
+ * @since      1.0.1
  * @package    Simple_Limited_Access
  * @subpackage Simple_Limited_Access/includes
  * @author     Leonardo Pinori <pinori@gmail.com>
@@ -24,11 +24,10 @@ class Simple_Limited_Access_Deactivator
 {
 
   /**
-   * Short Description. (use period)
    *
-   * Long Description.
+   * With "Simple Limited Access" you can limit access to specific pages or post_type by forcing the user to enter a username and password that you can define in the configuration screen.
    *
-   * @since    1.0.0
+   * @since    1.0.1
    */
   public static function deactivate()
   {

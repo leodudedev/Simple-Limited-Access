@@ -68,7 +68,7 @@
       padding: 10px;
       font-size: 20px;
       outline: none;
-      width: 100%;
+      width: calc(100% - 20px);
       color: black;
       background-color: white;
     }
@@ -106,7 +106,8 @@
 
     .sla-tgt-form .sla-tgt-form-error {
       margin: 20px 0 10px;
-      color: red;
+      color: tomato;
+      text-shadow: 0px 0px 5px rgb(255 255 255 / 60%);
     }
   </style>
 </head>

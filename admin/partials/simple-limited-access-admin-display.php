@@ -6,7 +6,7 @@
  * This file is used to markup the admin-facing aspects of the plugin.
  *
  * @link       https://github.com/leodudedev/Simple-Limited-Access
- * @since      1.0.0
+ * @since      1.0.1
  *
  * @package    Simple_Limited_Access
  * @subpackage Simple_Limited_Access/admin/partials
