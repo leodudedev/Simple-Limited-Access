@@ -127,6 +127,25 @@ class Simple_Limited_Access_Public
     return $url;
   }
 
+  private function encrypt_decrypt($action, $string)
+  {
+    $output = false;
+    $encrypt_method = "AES-256-CBC";
+    $secret_key = 'slakey_9dS$';
+    $secret_iv = '113598896445667';
+    // hash
+    $key = hash('sha256', $secret_key);
+    // iv - encrypt method AES-256-CBC expects 16 bytes 
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+    if ($action == 'encrypt') {
+      $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+      $output = base64_encode($output);
+    } else if ($action == 'decrypt') {
+      $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    }
+    return $output;
+  }
+
   private function hook_template_redirect()
   {
 
@@ -166,7 +185,12 @@ class Simple_Limited_Access_Public
               if (intval(get_option('simple_limited_access_cookie')) > 0) {
                 $cookietimeout = intval(get_option('simple_limited_access_cookie'));
               }
-              setcookie($cookie_name, date('Ymd'), time() + ((60 * 60) * $cookietimeout), "/");
+
+
+              $timeout = time() + ((60 * 60) * $cookietimeout);
+              $cookie_val_encrypt = $this->encrypt_decrypt('encrypt', $timeout . '[#sla#]' . $_POST['sla_user'] . '[#sla#]' . $_POST['sla_pwd']);
+
+              setcookie($cookie_name, $cookie_val_encrypt, $timeout, "/");
 
               $log_file = $this->utils->getCurrentLogFile();
               if ($log_file) {
@@ -182,8 +206,12 @@ class Simple_Limited_Access_Public
             if (!isset($_COOKIE[$cookie_name])) {
               $renderForm = true;
             } else {
-              if ($_COOKIE[$cookie_name] == date('Ymd')) {
-                $renderForm = false;
+              $strvalue = $this->encrypt_decrypt('decrypt', $_COOKIE[$cookie_name]);
+              $vec_value = explode('[#sla#]', $strvalue);
+              if (count($vec_value) === 3) {
+                if (time() < $vec_value[0] and $this->utils->checkUsrPwd($vec_value[1], $vec_value[2])) {
+                  $renderForm = false;
+                }
               }
             }
           }
