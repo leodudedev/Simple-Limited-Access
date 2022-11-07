@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Limited Access 1.0.1\n"
+"Project-Id-Version: Simple Limited Access 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/simple-limited-"
 "access\n"
 "POT-Creation-Date: 2022-11-05 17:30+0100\n"

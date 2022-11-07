@@ -20,7 +20,7 @@
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
  * @link       https://github.com/leodudedev/Simple-Limited-Access
- * @since      1.0.1
+ * @since      1.1.0
  *
  * @package    Simple_Limited_Access
  */
